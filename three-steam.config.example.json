@@ -1,0 +1,22 @@
+{
+  "$schema": "./schemas/three-steam.schema.json",
+  "appId": 480,
+  "name": "three-steam-example",
+  "title": "Three Steam Example",
+  "gameDir": "./examples/basic-game/dist",
+  "entry": "index.html",
+  "window": {
+    "width": 1280,
+    "height": 720,
+    "fullscreen": false,
+    "resizable": true
+  },
+  "renderer": {
+    "backend": "auto",
+    "frameRate": 60,
+    "requireHardwareAcceleration": true
+  },
+  "security": {
+    "allowRemoteOrigins": []
+  }
+}

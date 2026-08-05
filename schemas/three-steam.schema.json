@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pajama.studio/schemas/three-steam.schema.json",
+  "title": "three-steam configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["appId", "name", "title", "gameDir", "entry"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "appId": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+    "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,62}$" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "gameDir": { "type": "string", "minLength": 1 },
+    "entry": { "type": "string", "pattern": "^[^/\\\\]+\\.html$" },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": { "type": "integer", "minimum": 640, "maximum": 16384 },
+        "height": { "type": "integer", "minimum": 360, "maximum": 16384 },
+        "fullscreen": { "type": "boolean" },
+        "resizable": { "type": "boolean" }
+      }
+    },
+    "renderer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "backend": { "enum": ["auto", "d3d11", "metal"] },
+        "frameRate": { "type": "integer", "minimum": 30, "maximum": 240 },
+        "requireHardwareAcceleration": { "const": true }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allowRemoteOrigins": {
+          "type": "array",
+          "maxItems": 16,
+          "items": { "type": "string", "format": "uri" }
+        }
+      }
+    }
+  }
+}

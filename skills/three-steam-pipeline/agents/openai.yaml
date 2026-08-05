@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three Steam Pipeline"
+  short_description: "Build and validate Three.js games for Steam"
+  default_prompt: "Use $three-steam-pipeline to diagnose, build, test, and package this Three.js game for Windows and macOS, then report artifact paths and failed release gates."

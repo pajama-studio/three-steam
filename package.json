@@ -1,0 +1,68 @@
+{
+  "name": "three-steam",
+  "version": "0.1.0",
+  "description": "Native Steam host and typed bridge for Three.js games",
+  "type": "module",
+  "license": "MIT",
+  "author": "Pajama Studio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pajama-studio/three-steam.git"
+  },
+  "homepage": "https://github.com/pajama-studio/three-steam#readme",
+  "bugs": {
+    "url": "https://github.com/pajama-studio/three-steam/issues"
+  },
+  "keywords": [
+    "threejs",
+    "steam",
+    "steamworks",
+    "cef",
+    "html5-game",
+    "native-runtime"
+  ],
+  "bin": {
+    "three-steam": "./dist/cli/main.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/bridge/index.d.ts",
+      "import": "./dist/bridge/index.js"
+    },
+    "./protocol": {
+      "types": "./dist/bridge/protocol.d.ts",
+      "import": "./dist/bridge/protocol.js"
+    }
+  },
+  "files": [
+    "dist",
+    "native",
+    "schemas",
+    "three-steam.config.example.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "clean": "node -e \"import('node:fs').then(({rmSync})=>rmSync('dist',{recursive:true,force:true}))\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "native:configure": "cmake -S native/host -B build/native -DTHREE_STEAM_BUILD_WINDOWS_HOST=OFF",
+    "native:build": "cmake --build build/native --config Release",
+    "native:test": "ctest --test-dir build/native --output-on-failure -C Release",
+    "agent:capabilities": "node dist/cli/main.js capabilities --json",
+    "verify": "npm run test && npm run native:configure && npm run native:build && npm run native:test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.7.0"
+  }
+}

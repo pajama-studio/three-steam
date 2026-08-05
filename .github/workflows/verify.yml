@@ -1,0 +1,42 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  portable-core:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2022
+            target: windows-x64
+          - os: macos-14
+            target: macos-arm64
+          - os: macos-15-intel
+            target: macos-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+      - name: Validate agent JSON contract
+        shell: bash
+        run: |
+          node dist/cli/main.js capabilities --json
+          node dist/cli/main.js doctor --config three-steam.config.example.json --target "${{ matrix.target }}" --json --report "artifacts/${{ matrix.target }}/doctor.json"
+          node dist/cli/main.js plan --config three-steam.config.example.json --target "${{ matrix.target }}" --json --report "artifacts/${{ matrix.target }}/plan.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: agent-reports-${{ matrix.target }}
+          path: artifacts/${{ matrix.target }}
+          if-no-files-found: error
