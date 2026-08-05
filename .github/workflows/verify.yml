@@ -21,8 +21,8 @@ jobs:
             target: macos-x64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -34,7 +34,7 @@ jobs:
           node dist/cli/main.js capabilities --json
           node dist/cli/main.js doctor --config three-steam.config.example.json --target "${{ matrix.target }}" --json --report "artifacts/${{ matrix.target }}/doctor.json"
           node dist/cli/main.js plan --config three-steam.config.example.json --target "${{ matrix.target }}" --json --report "artifacts/${{ matrix.target }}/plan.json"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: agent-reports-${{ matrix.target }}
