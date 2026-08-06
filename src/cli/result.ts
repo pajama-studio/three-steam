@@ -4,9 +4,14 @@ import { dirname, resolve } from 'node:path'
 export const AGENT_RESULT_SCHEMA_VERSION = 1 as const
 
 export type AgentErrorCode =
+  | 'BUILD_FAILED'
   | 'CONFIG_INVALID'
   | 'NATIVE_RUNTIME_PENDING'
   | 'PREREQUISITE_FAILED'
+  | 'REMOTE_AUTH_FAILED'
+  | 'REMOTE_UNAVAILABLE'
+  | 'REVISION_MISMATCH'
+  | 'RUNTIME_VALIDATION_FAILED'
   | 'RUNNER_REQUIRED'
   | 'UNKNOWN_COMMAND'
 

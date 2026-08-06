@@ -31,6 +31,7 @@ For rendering, process, Overlay, or wrapper decisions, also read
 
 - `src/bridge/` — public TypeScript API and JSON protocol validation.
 - `src/cli/` — stable noninteractive CLI contract.
+- `src/remote/` — authenticated, allow-listed LAN runner; never add arbitrary shell execution.
 - `native/host/` — portable protocol core and native host work.
 - `schemas/` — public configuration schema; keep aligned with `src/cli/config.ts`.
 - `tests/` and `native/host/tests/` — TypeScript/CLI and C++ tests.

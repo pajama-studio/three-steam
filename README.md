@@ -37,15 +37,17 @@ The prior-art review and the technical reasoning live in
 | Strict JSON project configuration | Implemented |
 | Agent CLI result/exit-code contract | Implemented and unit-tested |
 | Portable C++ protocol validation core | Implemented and tested with CTest |
+| Secure agent-oriented LAN runner | Implemented and end-to-end tested locally |
 | Windows/macOS CI for the portable core | Implemented |
 | Win32 + CEF accelerated OSR + D3D11 host | Planned; P0 implementation target |
-| Cocoa + CEF accelerated OSR + Metal host | Planned after Windows P0 validation |
+| Cocoa + CEF accelerated OSR + Metal host | Accelerated smoke available; full P0 validation pending |
 | Steam distributable packaging | Guarded until the native hosts pass release gates |
 
 ## Repository layout
 
 - `src/bridge` — typed browser/native API, protocol validation, and browser fallback.
 - `src/cli` — noninteractive configuration, diagnostics, planning, and pipeline contract.
+- `src/remote` — authenticated LAN discovery, pairing, and allow-listed native runner.
 - `native/host` — portable C++ protocol core and future native hosts.
 - `examples/basic-game` — local WebGL2 smoke bundle for CLI checks.
 - `schemas` — project configuration JSON Schema.
@@ -53,6 +55,7 @@ The prior-art review and the technical reasoning live in
 - `docs/02-architecture.zh-CN.md` — selected rendering architecture and lifecycle.
 - `docs/03-validation-gates.md` — target-hardware release gates.
 - `docs/04-agent-cli-contract.md` — stable JSON, exit-code, runner, and artifact contract.
+- `docs/05-lan-runner.md` — secure Mac/Windows joint-debugging workflow.
 
 ## Develop
 
@@ -72,6 +75,22 @@ node dist/cli/main.js doctor \
 
 `npm run verify` runs TypeScript build/tests and the portable C++ test suite. It
 does **not** certify Steam Overlay or a native distributable.
+
+## Mac/Windows joint debugging
+
+The optional LAN runner lets a Mac controller ask a Windows x64 checkout to run
+allow-listed target-native commands. It does not expose a remote shell. Pairing is
+ephemeral and authenticated, and the two-host matrix rejects mismatched Git revisions.
+
+On Windows, after checking out the same commit:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\start-windows-runner.ps1 -ConfigureFirewall
+```
+
+See [docs/05-lan-runner.md](docs/05-lan-runner.md) for discovery, pairing, direct-IP,
+and matrix commands.
 
 ## Agent and CI usage
 

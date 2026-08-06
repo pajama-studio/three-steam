@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/three-steam.schema.json",
+  "appId": 480,
+  "name": "twister-and-skydancer-demo",
+  "title": "Twister & Skydancer",
+  "gameDir": "./dist",
+  "entry": "index.html",
+  "window": {
+    "width": 1440,
+    "height": 900,
+    "fullscreen": false,
+    "resizable": true
+  },
+  "renderer": {
+    "backend": "auto",
+    "frameRate": 60,
+    "requireHardwareAcceleration": true
+  },
+  "security": {
+    "allowRemoteOrigins": [
+      "https://skydancer.rand.monster",
+      "wss://skydancer.rand.monster"
+    ]
+  }
+}

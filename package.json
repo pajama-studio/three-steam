@@ -37,6 +37,11 @@
   "files": [
     "dist",
     "native",
+    "examples/basic-game",
+    "examples/skydancer",
+    "scripts",
+    "docs",
+    "AGENTS.md",
     "schemas",
     "three-steam.config.example.json",
     "README.md",
@@ -59,6 +64,7 @@
     "native:build": "cmake --build build/native --config Release",
     "native:test": "ctest --test-dir build/native --output-on-failure -C Release",
     "agent:capabilities": "node dist/cli/main.js capabilities --json",
+    "runner:lan": "node dist/cli/main.js runner serve --workspace . --listen 0.0.0.0 --json",
     "verify": "npm run test && npm run native:configure && npm run native:build && npm run native:test"
   },
   "devDependencies": {

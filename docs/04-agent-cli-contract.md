@@ -9,6 +9,8 @@ three-steam capabilities --json
 three-steam doctor --config three-steam.config.json --target windows-x64 --json --report artifacts/windows-x64/doctor.json
 three-steam plan --config three-steam.config.json --target windows-x64 --json --report artifacts/windows-x64/plan.json
 three-steam pipeline --config three-steam.config.json --target windows-x64 --json --report artifacts/windows-x64/pipeline.json
+three-steam remote status --credential artifacts/private/windows.json --json --report artifacts/remote/status.json
+three-steam matrix --credential artifacts/private/windows.json --command doctor --json --report artifacts/matrix/doctor.json
 ```
 
 Supported targets are `windows-x64`, `macos-arm64`, and `macos-x64`. A release pipeline must run on a matching native runner.
@@ -46,6 +48,16 @@ The report file contains the same stable result without the convenience `report`
 | 2 | `CONFIG_INVALID`, `UNKNOWN_COMMAND` | The invocation or configuration is invalid. |
 | 3 | `PREREQUISITE_FAILED` | A required tool, file, SDK, or configuration is unavailable. |
 | 4 | `RUNNER_REQUIRED`, `NATIVE_RUNTIME_PENDING` | The operation needs a different native runner or an unimplemented release component. |
+| 5 | `BUILD_FAILED`, `RUNTIME_VALIDATION_FAILED` | A native build or validation operation ran and failed. |
+| 6 | `REMOTE_UNAVAILABLE`, `REMOTE_AUTH_FAILED` | A LAN runner is unreachable, expired, or not authenticated. |
+| 7 | `REVISION_MISMATCH` | Local and remote runners are not testing the same Git revision. |
+
+## LAN runner contract
+
+The remote runner is an authenticated transport for the same CLI contract, not a
+remote shell. It accepts only the documented allow-listed commands and path arguments
+inside its repository. Agents must compare revisions before combining native results.
+See [05-lan-runner.md](05-lan-runner.md).
 
 ## Artifact contract
 
